@@ -213,8 +213,7 @@
                 android:text="@string/equal" />
 
         </TableRow>
-    </
-        TableLayout>
+    </TableLayout>
 
     <TextView
         android:id="@+id/edittext"

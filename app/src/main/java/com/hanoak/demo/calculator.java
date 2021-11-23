@@ -1,10 +1,11 @@
 package com.hanoak.demo;
 
 import static com.hanoak.demo.R.id.edittext;
-import static com.hanoak.demo.R.id.up;
+import static com.hanoak.demo.R.id.edittext;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import org.mariuszgromada.math.mxparser.*;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
@@ -14,7 +15,7 @@ import android.widget.EditText;
 
 
 public class calculator extends AppCompatActivity {
-    private EditText display ;
+    private EditText display;
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -27,24 +28,41 @@ public class calculator extends AppCompatActivity {
             @SuppressLint("ResourceType")
             @Override
             public void onClick(View v) {
-                if (getString(R.id.edittext).equals(display.getText().toString() ) ){
+                if (getString(R.id.edittext).equals(display.getText().toString())) {
                     display.setText(" ");
                 }
             }
         });
     }
-    private void updateText (String strToAdd){
-        String oldStr =display.getText().toString();
-        int cursorPos =display.getSelectionStart();
-        String leftStr= oldStr.substring(0,cursorPos);
+
+    @SuppressLint("ResourceType")
+    private void updateText(String strToAdd) {
+
+        String oldStr = display.getText().toString();
+        int cursorPos = display.getSelectionStart();
+        String leftStr = oldStr.substring(0, cursorPos);
         String rightStr = oldStr.substring(cursorPos);
-        display.setText(String.format("%s%s%s",leftStr,strToAdd,rightStr));
-        display.setSelection(cursorPos+1);
+        if (getString(R.id.edittext).equals(display.getText().toString())) {
+            display.setText(strToAdd);
+            display.setSelection(cursorPos + 1);
+        } else {
 
 
+            display.setText(String.format("%s%s%s", leftStr, strToAdd, rightStr));
+            display.setSelection(cursorPos + 1);
+
+        }
 
 
     }
+
+    ;
+
+
+
+
+
+
 
 
     public void  zeroB(View View){
@@ -94,7 +112,11 @@ updateText("3");
 
     }
     public void  EQUALB(View View){
-        updateText("=");
+        String userExp = display.getText().toString();
+        Expression exp =new Expression(userExp);
+        String result =String.valueOf(exp.calculate());
+        display.setText(result);
+        display.setSelection(result.length());
 
     }
     public void  SOUSTRACTION(View View){
